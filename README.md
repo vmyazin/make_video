@@ -1,9 +1,13 @@
-# Make Video
+# Make Video Script
 
-A simple bash script that creates videos from images and audio using FFmpeg. Perfect for creating slideshow videos, static image videos, or any video that combines visual content with audio.
+A simple bash script that transforms audio-only content into YouTube-ready videos by adding visual elements. Perfect for converting podcasts, interviews, music, or any audio content into uploadable video format using FFmpeg.
+
+![Make Video Illustration](assets/make_video_image.jpg)
 
 ## Features
 
+- 🎥 **YouTube-Ready Videos**: Transform any audio content into uploadable video format
+- 🎙️ **Podcast & Interview Support**: Convert audio-only content to video for YouTube uploads
 - 🖼️ **Static Image Videos**: Create videos from a single image with background audio
 - 🎬 **Slideshow Videos**: Create slideshow videos from multiple images with custom duration per slide
 - 🎵 **Audio Support**: Works with various audio formats (MP3, M4A, WAV, etc.)
@@ -68,19 +72,24 @@ Create a slideshow video from multiple images:
 
 ## Examples
 
-### Create a photo slideshow
+### Convert a podcast to YouTube video
 ```bash
-./make_video.sh 'vacation1.jpg,vacation2.jpg,vacation3.jpg' vacation_music.mp3 vacation_video.mp4 192k --slideshow 4
+./make_video.sh podcast_cover.jpg episode_audio.mp3 podcast_video.mp4 192k
+```
+
+### Create an interview video with slideshow
+```bash
+./make_video.sh 'interview_cover.jpg,guest_photo.jpg,company_logo.png' interview_audio.wav interview_video.mp4 256k --slideshow 10
+```
+
+### Convert music to YouTube video
+```bash
+./make_video.sh album_art.jpg song.mp3 music_video.mp4
 ```
 
 ### Create a presentation video
 ```bash
 ./make_video.sh 'slide1.png,slide2.png,slide3.png' voiceover.wav presentation.mp4 128k --slideshow 8
-```
-
-### Create a simple image video
-```bash
-./make_video.sh cover_art.jpg song.mp3 music_video.mp4
 ```
 
 ## Supported Formats
@@ -146,11 +155,19 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 This project is open source and available under the [MIT License](LICENSE).
 
+## Use Cases
+
+- **Podcasters**: Convert audio episodes to YouTube videos with cover art
+- **Musicians**: Create music videos from album artwork and audio tracks
+- **Interviewers**: Transform audio interviews into engaging video content
+- **Content Creators**: Make any audio content YouTube-ready with visual elements
+- **Educators**: Convert audio lectures or presentations to video format
+
 ## Acknowledgments
 
 - Built with [FFmpeg](https://ffmpeg.org/) - the powerful multimedia framework
-- Inspired by the need for simple video creation tools
+- Inspired by the need to make audio content YouTube-compatible
 
 ---
 
-**Happy video making!** 🎬✨
+**Transform your audio into YouTube-ready videos!** 🎬✨
