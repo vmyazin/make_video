@@ -9,7 +9,8 @@ A simple bash script that transforms audio-only content into YouTube-ready video
 - 🎥 **YouTube-Ready Videos**: Transform any audio content into uploadable video format
 - 🎙️ **Podcast & Interview Support**: Convert audio-only content to video for YouTube uploads
 - 🖼️ **Static Image Videos**: Create videos from a single image with background audio
-- 🎬 **Slideshow Videos**: Create slideshow videos from multiple images with custom duration per slide
+- 🎬 **Mixed Media Slideshows**: Create slideshow videos from images and videos with custom duration per slide
+- 🎞️ **Video Joining**: Combine multiple videos and images into a single output video
 - 🎵 **Audio Support**: Works with various audio formats (MP3, M4A, WAV, etc.)
 - ⚙️ **Customizable Bitrate**: Control audio quality with custom bitrate settings
 - 🚀 **Simple CLI**: Easy-to-use command-line interface
@@ -49,22 +50,35 @@ Create a video from a single image with background audio:
 ./make_video.sh photo.jpg background_music.mp3 my_video.mp4 192k
 ```
 
-### Slideshow Video
+### Single Video with Audio
 
-Create a slideshow video from multiple images:
+Create a video by adding audio to an existing video:
 
 ```bash
-./make_video.sh 'img1.jpg,img2.jpg,img3.jpg' audio.m4a output.mp4 [bitrate] --slideshow 5
+./make_video.sh video.mp4 audio.m4a output.mp4 [bitrate]
 ```
 
 **Example:**
 ```bash
-./make_video.sh 'slide1.jpg,slide2.jpg,slide3.jpg' presentation_audio.wav slideshow.mp4 256k --slideshow 3
+./make_video.sh interview_video.mp4 background_music.mp3 final_video.mp4 192k
+```
+
+### Mixed Media Slideshow
+
+Create a slideshow video from multiple images and videos:
+
+```bash
+./make_video.sh 'img1.jpg,video1.mp4,img2.jpg' audio.m4a output.mp4 [bitrate] --slideshow 5
+```
+
+**Example:**
+```bash
+./make_video.sh 'slide1.jpg,intro_video.mp4,slide2.jpg,outro_video.mp4' presentation_audio.wav slideshow.mp4 256k --slideshow 3
 ```
 
 ### Parameters
 
-- `image(s)`: Single image file or comma-separated list of images for slideshow
+- `media(s)`: Single media file or comma-separated list of images and videos for slideshow
 - `audio`: Audio file to use as background music
 - `output.mp4`: Name of the output video file
 - `bitrate` (optional): Audio bitrate (default: 128k)
@@ -77,14 +91,19 @@ Create a slideshow video from multiple images:
 ./make_video.sh podcast_cover.jpg episode_audio.mp3 podcast_video.mp4 192k
 ```
 
-### Create an interview video with slideshow
+### Create an interview video with mixed media
 ```bash
-./make_video.sh 'interview_cover.jpg,guest_photo.jpg,company_logo.png' interview_audio.wav interview_video.mp4 256k --slideshow 10
+./make_video.sh 'interview_intro.mp4,guest_photo.jpg,interview_clip.mp4,company_logo.png' interview_audio.wav interview_video.mp4 256k --slideshow 10
 ```
 
 ### Convert music to YouTube video
 ```bash
 ./make_video.sh album_art.jpg song.mp3 music_video.mp4
+```
+
+### Join multiple videos with audio
+```bash
+./make_video.sh 'intro.mp4,main_content.mp4,outro.mp4' background_music.mp3 complete_video.mp4 192k --slideshow 0
 ```
 
 ### Create a presentation video
@@ -99,6 +118,19 @@ Create a slideshow video from multiple images:
 - PNG (.png)
 - BMP (.bmp)
 - TIFF (.tiff)
+- And other formats supported by FFmpeg
+
+### Video Formats
+- MP4 (.mp4)
+- AVI (.avi)
+- MOV (.mov)
+- MKV (.mkv)
+- WMV (.wmv)
+- FLV (.flv)
+- WebM (.webm)
+- M4V (.m4v)
+- 3GP (.3gp)
+- OGV (.ogv)
 - And other formats supported by FFmpeg
 
 ### Audio Formats
