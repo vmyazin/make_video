@@ -1,3 +1,4 @@
+<!-- README.md -->
 # Make Video Script
 
 A simple bash script that transforms audio-only content into YouTube-ready videos by adding visual elements. Perfect for converting podcasts, interviews, music, or any audio content into uploadable video format using FFmpeg.
@@ -14,6 +15,8 @@ A simple bash script that transforms audio-only content into YouTube-ready video
 - 🎵 **Audio Support**: Works with various audio formats (MP3, M4A, WAV, etc.)
 - ⚙️ **Customizable Bitrate**: Control audio quality with custom bitrate settings
 - 🚀 **Simple CLI**: Easy-to-use command-line interface
+- 🔁 **Looping Support**: Seamlessly loop one or more videos to match audio length
+- 🧩 **Chunked Processing**: Auto/forced chunking for long audio with safe concat
 
 ## Prerequisites
 
@@ -83,6 +86,40 @@ Create a slideshow video from multiple images and videos:
 - `output.mp4`: Name of the output video file
 - `bitrate` (optional): Audio bitrate (default: 128k)
 - `--slideshow duration`: Duration in seconds for each slide (slideshow mode only)
+- `--loop`: Loop the media sequence to cover the full audio duration
+- `--chunk`: Force chunked processing for long audio (recommended for 20+ minutes)
+- `--chunk-seconds N`: Chunk duration in seconds (default: 300)
+
+### Looping and Multi-Video Sequence
+
+Loop one or more videos to span the entire audio:
+
+```bash
+./make_video.sh "my_videos/Jazzy Mantra Mix/Cat Dance.mp4,my_videos/Jazzy Mantra Mix/Cat Dance 2.mp4" \
+  "my_videos/Jazzy Mantra Mix/Beira Mar Suno Recording 9-13-25, 23.01.21.m4a" \
+  jazzy_cat_dance_output.mp4 192k --loop
+```
+
+The script calculates repeats and concatenates the sequence transparently.
+
+### Chunked Processing (Long Audio)
+
+For very long audio (e.g., 30–60+ minutes), one-pass rendering can be memory intensive. This script can:
+- Auto-switch to chunked processing when the repeat segment count is high
+- Or you can force chunking with `--chunk` and control chunk size via `--chunk-seconds` (default 300s)
+
+```bash
+# Force chunking with 5-minute chunks (safe and memory-efficient)
+./make_video.sh "video1.mp4,video2.mp4" long_audio.m4a output.mp4 192k --loop --chunk --chunk-seconds 300
+
+# Larger chunks (10 minutes) reduce concatenation steps
+./make_video.sh "video1.mp4,video2.mp4" long_audio.m4a output.mp4 192k --loop --chunk --chunk-seconds 600
+```
+
+What happens in chunked mode:
+1. Audio is segmented without re-encoding
+2. Each chunk is rendered with the media loop (nested call with auto-chunk disabled)
+3. All chunk videos are losslessly concatenated (`ffmpeg -f concat -c copy`)
 
 ## Examples
 
@@ -170,6 +207,13 @@ The script uses FFmpeg with the following configurations:
 4. **Video quality issues**
    - Try increasing the bitrate (e.g., 256k, 320k)
    - Ensure input images are high quality
+
+5. **Output won't play or process was killed (Killed: 9)**
+   - The job likely exceeded system memory; use `--chunk` (and optionally increase `--chunk-seconds`)
+   - Example:
+     ```bash
+     ./make_video.sh "video1.mp4,video2.mp4" long_audio.m4a output.mp4 192k --loop --chunk
+     ```
 
 ### Getting Help
 
